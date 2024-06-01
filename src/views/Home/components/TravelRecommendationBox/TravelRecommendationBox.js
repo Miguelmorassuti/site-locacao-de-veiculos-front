@@ -9,6 +9,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
+import { Divider } from "@mui/material";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -53,8 +54,8 @@ function TravelRecommendationBox() {
   };
 
   return (
-    <Box bgcolor="#cccccc" padding={2} marginTop={10}>
-      <Box>
+    <Box bgcolor="#222222" padding={2} marginTop={10}>
+      <Box color="white">
         <Typography variant="h4" textAlign="center">
           Destinos para descobrir e se inspirar
         </Typography>
@@ -80,7 +81,7 @@ function TravelRecommendationBox() {
             alignItems: "center",
             height: 50,
             pl: 2,
-            bgcolor: "#590202",
+            bgcolor: "#333",
             color: "#fff",
             borderRadius: "15px 15px 0px 0px",
           }}
@@ -116,7 +117,7 @@ function TravelRecommendationBox() {
           steps={maxSteps}
           position="static"
           activeStep={activeStep}
-          sx={{ backgroundColor: "#590202" }}
+          sx={{ backgroundColor: "#333" }}
           nextButton={
             <Button
               size="small"
@@ -149,6 +150,7 @@ function TravelRecommendationBox() {
           }
         />
       </Box>
+      <Divider color="white" />
     </Box>
   );
 }

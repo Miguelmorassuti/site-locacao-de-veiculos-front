@@ -11,10 +11,12 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import TwoWheelerIcon from "@mui/icons-material/TwoWheeler";
+import { Link } from "react-router-dom";
+import { styled } from "@mui/material";
 
 const pages = ["Destaques", "Novidades", "Blog"];
-const settings = ["Perfil", "Conta", "Sobre", "Sair"];
+const settings = ["Perfil", "Conta", "Sobre"];
 
 const Topbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,11 +37,16 @@ const Topbar = () => {
     setAnchorElUser(null);
   };
 
+  const Links = styled(Link)({
+    textDecoration: "none",
+    color: "#000",
+  });
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#222222" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <TwoWheelerIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -55,7 +62,7 @@ const Topbar = () => {
               textDecoration: "none",
             }}
           >
-            LOGO
+            MVW
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -94,7 +101,7 @@ const Topbar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <TwoWheelerIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -128,7 +135,7 @@ const Topbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="My Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -152,6 +159,11 @@ const Topbar = () => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Links to="/">
+                  <Typography textAlign="center">Sair</Typography>
+                </Links>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

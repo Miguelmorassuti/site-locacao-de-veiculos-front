@@ -6,6 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material";
 
 const CardProduct = () => {
   const navigate = useNavigate(); // Use useNavigate para navegação
@@ -14,8 +15,13 @@ const CardProduct = () => {
     navigate(`/Vehicle/${id}`); // Navegue para a rota desejada usando navigate
   };
 
+  const ButtonMoreInformation = styled(Button)({
+    backgroundColor: "#111",
+    "&:hover": { backgroundColor: "#444" },
+  });
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: 370 }}>
       <CardMedia
         component="img"
         alt="green iguana"
@@ -33,19 +39,21 @@ const CardProduct = () => {
       </CardContent>
       <CardActions>
         <Button
+          sx={{ color: "#000" }}
           size="small"
           variant="outlined"
           onClick={() => handleClick(123)}
         >
           R$50/dia
         </Button>
-        <Button
+        <ButtonMoreInformation
           size="small"
           variant="contained"
+          color="warning"
           onClick={() => handleClick(456)}
         >
           Ver mais informações
-        </Button>
+        </ButtonMoreInformation>
       </CardActions>
     </Card>
   );

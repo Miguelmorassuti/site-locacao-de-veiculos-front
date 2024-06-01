@@ -185,7 +185,7 @@ const Login = () => {
           </Box>
           <BoxUtilities>
             <Links href="#">Esqueci a senha</Links>
-            <Links href="#">Criar sua conta</Links>
+            <Links to="/createAccount">Criar sua conta</Links>
           </BoxUtilities>
           <Typography
             variant="caption"
