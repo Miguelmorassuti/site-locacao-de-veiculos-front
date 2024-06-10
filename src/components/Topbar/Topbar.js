@@ -51,7 +51,7 @@ const Topbar = () => {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/vehicle"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -159,6 +159,11 @@ const Topbar = () => {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Links to="/reservation">
+                  <Typography textAlign="center">Reservas</Typography>
+                </Links>
+              </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Links to="/">
                   <Typography textAlign="center">Sair</Typography>

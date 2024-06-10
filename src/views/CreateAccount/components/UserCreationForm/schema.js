@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 const schema = yup.object({
-  name: yup.string().required("Por favor! Insira seu nome!"),
+  fullName: yup.string().required("Por favor! Insira seu nome!"),
 
   password: yup
     .string()
@@ -15,11 +15,7 @@ const schema = yup.object({
       "Senha deve conter pelo menos um caractere especial!"
     ),
 
-  cpf: yup.string().required("Por favor! Insira seu CPF!"),
-
-  address: yup.string().required("Por favor! Insira seu CPF!"),
-
-  telephone: yup.string().required("Por favor! Insira seu CPF!"),
+  email: yup.string().required("Por favor! Insira seu Email!"),
 });
 
 export default schema;

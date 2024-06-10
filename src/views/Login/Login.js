@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
 
 import styled from "@emotion/styled";
-import { Container } from "@mui/system";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import {
   Box,
@@ -22,6 +22,7 @@ import {
 import schema from "./schema";
 
 import { yupResolver } from "@hookform/resolvers/yup";
+import CustomSnackbar from "../../components/CustomSnackbar";
 
 const ContainerBody = styled(Box)({
   height: "100vh",
@@ -85,6 +86,8 @@ const FormLabelCustom = styled(FormLabel)({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
@@ -92,26 +95,36 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      user: "",
+      email: "",
       password: "",
     },
   });
 
-  const [data, setData] = useState([]);
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    return setData(data);
+    try {
+      await axios.post("http://localhost:8080/auth/login", data);
+      navigate("/vehicle");
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setSnackbarMessage("Erro ao fazer login.");
+      setIsSuccess(false);
+    } finally {
+      setOpenSnackbar(true);
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 5000); // Espera 5 segundos antes de permitir outra tentativa
+    }
   };
 
-  const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -126,7 +139,7 @@ const Login = () => {
         >
           <FormLabelCustom>Usuário*</FormLabelCustom>
           <Controller
-            name="user"
+            name="email"
             control={control}
             render={({ field }) => (
               <TextField
@@ -150,38 +163,17 @@ const Login = () => {
             )}
           />
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Controller
-              name="checkbox"
-              control={control}
-              render={({ field }) => <Checkbox {...field} label="test" />}
-            />
+            <Checkbox disabled />
             <FormLabelCustom>Lembrar de mim</FormLabelCustom>
           </Box>
           <Box>
             <ButtonSubmit
               variant="contained"
-              onClick={handleClickOpen}
               type="submit"
+              disabled={isSubmitting}
             >
               Entrar
             </ButtonSubmit>
-            <Dialog
-              open={data.user !== undefined ? open : false}
-              onClose={handleClose}
-              sx={{ backgroundColor: "#590202" }}
-            >
-              <DialogTitle id="alert-dialog-title">Bem vindo!</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Para acessar click no botão acessar
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} autoFocus>
-                  <Links to="/vehicle">Acessar</Links>
-                </Button>
-              </DialogActions>
-            </Dialog>
           </Box>
           <BoxUtilities>
             <Links href="#">Esqueci a senha</Links>
@@ -195,6 +187,12 @@ const Login = () => {
           </Typography>
         </form>
       </BoxBackground>
+      <CustomSnackbar
+        open={openSnackbar}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        isSuccess={isSuccess}
+      />
     </ContainerBody>
   );
 };

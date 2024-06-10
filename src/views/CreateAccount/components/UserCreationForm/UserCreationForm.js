@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import {
   Box,
   TextField,
@@ -20,6 +22,8 @@ const ButtonSubmit = styled(Button)({
 });
 
 const UserCreationForm = () => {
+  const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
@@ -27,19 +31,26 @@ const UserCreationForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: "",
+      fullName: "",
       password: "",
-      cpf: "",
-      address: "",
-      telephone: "",
+      email: "",
     },
   });
 
   const [data, setData] = useState([]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    return setData(data);
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      const response = await axios.post(
+        "http://localhost:8080/auth/signup",
+        data
+      );
+
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   };
 
   return (
@@ -55,13 +66,13 @@ const UserCreationForm = () => {
       >
         <FormLabel>NOME *</FormLabel>
         <Controller
-          name="name"
+          name="fullName"
           control={control}
           render={({ field }) => (
             <TextField
               {...field}
-              helperText={errors.name?.message}
-              error={!!errors.name}
+              helperText={errors.fullName?.message}
+              error={!!errors.fullName}
             />
           )}
         />
@@ -82,45 +93,15 @@ const UserCreationForm = () => {
         </Box>
 
         <Box display="flex" flexDirection="column" marginTop={2}>
-          <FormLabel>CPF *</FormLabel>
+          <FormLabel>EMAIL *</FormLabel>
           <Controller
-            name="cpf"
+            name="email"
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
                 helperText={errors.cpf?.message}
                 error={!!errors.cpf}
-              />
-            )}
-          />
-        </Box>
-
-        <Box display="flex" flexDirection="column" marginTop={2}>
-          <FormLabel>ENDEREÇO *</FormLabel>
-          <Controller
-            name="address"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                helperText={errors.address?.message}
-                error={!!errors.address}
-              />
-            )}
-          />
-        </Box>
-
-        <Box display="flex" flexDirection="column" marginTop={2}>
-          <FormLabel>TELEFONE *</FormLabel>
-          <Controller
-            name="telephone"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                helperText={errors.telephone?.message}
-                error={!!errors.telephone}
               />
             )}
           />

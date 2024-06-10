@@ -8,12 +8,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material";
 
-const CardProduct = () => {
+const CardProduct = ({ cardData }) => {
   const navigate = useNavigate(); // Use useNavigate para navegação
 
   const handleClick = (id) => {
     navigate(`/Vehicle/${id}`); // Navegue para a rota desejada usando navigate
   };
+
+  console.log(cardData);
 
   const ButtonMoreInformation = styled(Button)({
     backgroundColor: "#111",
@@ -30,7 +32,7 @@ const CardProduct = () => {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Cobalt
+          {cardData?.model} - {cardData?.brand}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Lizards are a widespread group of squamate reptiles, with over 6,000
@@ -42,15 +44,15 @@ const CardProduct = () => {
           sx={{ color: "#000" }}
           size="small"
           variant="outlined"
-          onClick={() => handleClick(123)}
+          onClick={() => handleClick(cardData?.id)}
         >
-          R$50/dia
+          {cardData?.rentPrice}/Dia
         </Button>
         <ButtonMoreInformation
           size="small"
           variant="contained"
           color="warning"
-          onClick={() => handleClick(456)}
+          onClick={() => handleClick(cardData?.id)}
         >
           Ver mais informações
         </ButtonMoreInformation>
